@@ -1,0 +1,12 @@
+{
+  "happy_path_login": {
+    "username": "sparta",
+    "password": "global",
+    "expectedStatusCode": 200
+  },
+  "sad_path_wrong_password": {
+    "username": "sparta",
+    "password": "wrongpassword",
+    "expectedStatusCode": 401
+  }
+}
