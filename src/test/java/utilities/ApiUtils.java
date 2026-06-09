@@ -7,7 +7,7 @@ import io.restassured.specification.RequestSpecification;
 
 public class ApiUtils {
 
-    public static final String BASE_URI = "http://localhost:8080/";
+    public static final String BASE_URI = "http://localhost:8080";
     public static final String USERNAME = "sparta";
     public static final String PASSWORD = "global";
 
