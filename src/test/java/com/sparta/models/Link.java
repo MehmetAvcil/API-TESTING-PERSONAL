@@ -1,4 +1,4 @@
-package models;
+package com.sparta.models;
 
 public class Link {
     private String href;
