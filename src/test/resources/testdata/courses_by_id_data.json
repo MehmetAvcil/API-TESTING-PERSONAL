@@ -1,0 +1,22 @@
+{
+  "happy_path_id1": {
+    "id": 1,
+    "expectedStatusCode": 200
+  },
+  "happy_path_id2": {
+    "id": 2,
+    "expectedStatusCode": 200
+  },
+  "happy_path_id3": {
+    "id": 3,
+    "expectedStatusCode": 200
+  },
+  "sad_path_wrong_id1": {
+    "id": 10,
+    "expectedStatusCode": 204
+  },
+  "sad_path_wrong_id2": {
+    "id": " ",
+    "expectedStatusCode": 400
+  }
+}
