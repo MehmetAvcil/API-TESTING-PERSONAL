@@ -1,7 +1,6 @@
-Feature: Login
+Feature: POST /Auth/login
 
-
-User Story:
+  User Story:
 As a Registered User
 I want to log into the application using my credentials
 So that I can receive a secure authentication token to access restricted features.
