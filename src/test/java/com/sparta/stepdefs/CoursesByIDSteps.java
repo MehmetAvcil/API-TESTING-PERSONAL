@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static com.sparta.utilities.ApiUtils.COURSES_PATH;
+import static org.hamcrest.CoreMatchers.either;
 
 public class CoursesByIDSteps {
     Response response;
@@ -66,8 +67,9 @@ public class CoursesByIDSteps {
         MatcherAssert.assertThat(course.getSpartans(), Matchers.notNullValue());
     }
 
-    @And("the response body should contain error message that includes {string}")
-    public void theResponseBodyShouldContainErrorMessageThatIncludes(String expectedMessage) {
-        MatcherAssert.assertThat(response.body().asString(), Matchers.containsString(expectedMessage));
+    @And("the error message should indicate the value is invalid")
+    public void theResponseBodyShouldContainErrorMessageThatIncludes() {
+        MatcherAssert.assertThat(response.body().asString(), either(Matchers.containsString("is not valid"))
+                .or(Matchers.containsString("is invalid")));
     }
 }

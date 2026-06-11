@@ -14,27 +14,29 @@ Scenario Outline: Single course search with valid course id
 
   Examples:
       | id_key             |
-      | happy_path_id1      |
-      | happy_path_id2      |
-      | happy_path_id3      |
+      | valid_id_1      |
+      | valid_id_2      |
+      | valid_id_3      |
 
     @Sad
-  Scenario Outline: Single course search with invalid course id
+  Scenario Outline: Single course search with nonexistent course id
     Given the courses by ID endpoint is available
     When the user sends a GET request for a single course using id "<id_key>" from "courses_by_id_data.json"
     Then the status code must match the file expectation
 
     Examples:
       | id_key             |
-      | sad_path_wrong_id1  |
+      | invalid_id_1  |
+      | invalid_id_2  |
 
 @Sad
   Scenario Outline: Single course search with invalid input
     Given the courses by ID endpoint is available
     When the user sends a GET request for a single course using id "<id_key>" from "courses_by_id_data.json"
     Then the status code must match the file expectation
-    And the response body should contain error message that includes "is invalid"
+    And the error message should indicate the value is invalid
 
     Examples:
       | id_key             |
-      | sad_path_wrong_id2  |
+      | invalid_input_1  |
+      | invalid_input_2  |

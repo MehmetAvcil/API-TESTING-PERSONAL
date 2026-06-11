@@ -1,22 +1,30 @@
 {
-  "happy_path_id1": {
+  "valid_id_1": {
     "id": 1,
     "expectedStatusCode": 200
   },
-  "happy_path_id2": {
+  "valid_id_2": {
     "id": 2,
     "expectedStatusCode": 200
   },
-  "happy_path_id3": {
+  "valid_id_3": {
     "id": 3,
     "expectedStatusCode": 200
   },
-  "sad_path_wrong_id1": {
+  "invalid_id_1": {
     "id": 10,
     "expectedStatusCode": 204
   },
-  "sad_path_wrong_id2": {
+  "invalid_id_2": {
+    "id": 10,
+    "expectedStatusCode": 204
+  },
+  "invalid_input_1": {
     "id": " ",
+    "expectedStatusCode": 400
+  },
+  "invalid_input_2": {
+    "id": "hello",
     "expectedStatusCode": 400
   }
 }
