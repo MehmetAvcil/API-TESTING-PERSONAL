@@ -1,8 +1,7 @@
-package stepdefs;
+package com.sparta.stepdefs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,13 +9,11 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import utilities.ApiUtils;
+import com.sparta.utilities.ApiUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
-import static utilities.ApiUtils.LOGIN_PATH;
 
 public class LoginSteps {
 

@@ -1,4 +1,4 @@
-package models;
+package com.sparta.models;
 
 import java.util.List;
 

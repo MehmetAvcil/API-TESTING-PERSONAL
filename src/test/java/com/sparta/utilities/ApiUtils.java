@@ -1,4 +1,4 @@
-package utilities;
+package com.sparta.utilities;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -7,13 +7,13 @@ import io.restassured.specification.RequestSpecification;
 
 public class ApiUtils {
 
-    public static final String BASE_URI = "http://localhost:8080";
-    public static final String USERNAME = "sparta";
-    public static final String PASSWORD = "global";
+    public static final String BASE_URI = ConfigReader.get("base.uri");
+    public static final String USERNAME = ConfigReader.get("username");
+    public static final String PASSWORD = ConfigReader.get("password");
 
-    public static final String LOGIN_PATH = "/Auth/login";
-    public static final String SPARTANS_PATH = "/Spartans";
-    public static final String COURSES_PATH = "/Courses";
+    public static final String LOGIN_PATH = ConfigReader.get("login.path");
+    public static final String SPARTANS_PATH = ConfigReader.get("spartans.path");
+    public static final String COURSES_PATH = ConfigReader.get("courses.path");
 
     public static RequestSpecification getBaseRequestSpec() {
         return new RequestSpecBuilder()
