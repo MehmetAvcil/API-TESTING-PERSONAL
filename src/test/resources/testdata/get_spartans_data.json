@@ -1,0 +1,10 @@
+{
+  "empty_token": {
+    "token": "",
+    "expectedErrorMessage": "Bearer"
+  },
+  "wrong_token": {
+    "token": 123,
+    "expectedErrorMessage": "Bearer error=\"invalid_token\""
+  }
+}

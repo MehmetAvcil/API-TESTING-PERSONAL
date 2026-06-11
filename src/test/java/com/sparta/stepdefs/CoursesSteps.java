@@ -11,6 +11,8 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 
+import java.text.SimpleDateFormat;
+
 import static com.sparta.utilities.ApiUtils.COURSES_PATH;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -45,9 +47,8 @@ public class CoursesSteps {
 
         assertThat(courses, Matchers.notNullValue());
         assertThat(courses.length, Matchers.greaterThan(1));
-        System.out.println(courses.length);
         assertThat(courses[0].getId(), Matchers.notNullValue());
-        assertThat(courses[0].getName(), Matchers.notNullValue());
-        assertThat(courses[0].getTrainer(), Matchers.notNullValue());
+        assertThat(courses[0].getStartDate(), Matchers.matchesPattern(("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")));
+        assertThat(courses[0].getEndDate(), Matchers.matchesPattern(("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")));
     }
 }

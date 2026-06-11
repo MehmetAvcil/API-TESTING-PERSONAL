@@ -60,10 +60,7 @@ public class CoursesByIDSteps {
     @And("the response body should contain expected course data")
     public void theResponseBodyShouldContainExpectedCourseData() {
         CoursePOJO course = response.as(CoursePOJO.class);
-
-        MatcherAssert.assertThat(course.getName(), Matchers.notNullValue());
-        MatcherAssert.assertThat(course.getTrainer(), Matchers.notNullValue());
-        MatcherAssert.assertThat(course.getId(), Matchers.notNullValue());
+        MatcherAssert.assertThat(course.getId(), Matchers.is(testData.get("id")));
         MatcherAssert.assertThat(course.getSpartans(), Matchers.notNullValue());
     }
 
