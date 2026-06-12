@@ -3,7 +3,7 @@ package com.sparta.models;
 import java.util.List;
 
 public class SpartanPOJO {
-    private String id;
+    private int id;
     private String firstName;
     private String lastName;
     private String university;
@@ -15,11 +15,11 @@ public class SpartanPOJO {
 
     public SpartanPOJO() {}
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

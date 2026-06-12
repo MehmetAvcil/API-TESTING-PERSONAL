@@ -61,7 +61,7 @@ public class CoursesByIDSteps {
     public void theResponseBodyShouldContainExpectedCourseData() {
         CoursePOJO course = response.as(CoursePOJO.class);
         MatcherAssert.assertThat(course.getId(), Matchers.is(testData.get("id")));
-        MatcherAssert.assertThat(course.getSpartans(), Matchers.notNullValue());
+        MatcherAssert.assertThat(course.getSpartans(), Matchers.not(""));
     }
 
     @And("the error message should indicate the value is invalid")

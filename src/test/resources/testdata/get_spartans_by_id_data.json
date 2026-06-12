@@ -1,0 +1,19 @@
+{
+  "valid_credentials_and_existing_spartan": {
+    "credentials": true,
+    "id": 1,
+    "expectedStatusCode": 200
+  },
+  "invalid_credentials_and_existing_spartan": {
+    "credentials": false,
+    "id": 1,
+    "expectedStatusCode": 401,
+    "expectedErrorMessage": "Bearer error=\"invalid_token\""
+  },
+  "valid_credentials_and_non_existent_spartan": {
+    "credentials": true,
+    "id": 45,
+    "expectedStatusCode": 204,
+    "expectedErrorMessage": "Bearer error=\"invalid_token\""
+  }
+}

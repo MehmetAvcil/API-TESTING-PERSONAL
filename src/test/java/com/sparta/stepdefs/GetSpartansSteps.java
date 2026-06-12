@@ -53,12 +53,12 @@ public class GetSpartansSteps {
     public void theResponseBodyShouldContainValidSpartansData() {
         SpartanPOJO[] spartans = response.as(SpartanPOJO[].class);
 
-        MatcherAssert.assertThat(spartans, Matchers.notNullValue());
+        MatcherAssert.assertThat(spartans, Matchers.not(""));
         MatcherAssert.assertThat(spartans.length, Matchers.greaterThan(1));
-        MatcherAssert.assertThat(spartans[0].getId(), Matchers.notNullValue());
-        MatcherAssert.assertThat(spartans[0].getFirstName(), Matchers.notNullValue());
-        MatcherAssert.assertThat(spartans[0].getLastName(), Matchers.notNullValue());
-        MatcherAssert.assertThat(spartans[0].isGraduated(), Matchers.notNullValue());
+        MatcherAssert.assertThat(spartans[0].getId(), Matchers.not(""));
+        MatcherAssert.assertThat(spartans[0].getFirstName(), Matchers.not(""));
+        MatcherAssert.assertThat(spartans[0].getLastName(), Matchers.not(""));
+        MatcherAssert.assertThat(spartans[0].isGraduated(), Matchers.not(""));
     }
 
     @Given("the user has an unauthorized session with token {string} from {string}")
