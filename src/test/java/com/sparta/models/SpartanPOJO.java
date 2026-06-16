@@ -1,27 +1,14 @@
 package com.sparta.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SpartanPOJO {
-    private int id;
     private String firstName;
     private String lastName;
-    private String university;
-    private String degree;
-    private String course;
-    private String Stream;
-    private boolean graduated;
-    private List<Link> links;
+    private CoursePOJO course;
 
     public SpartanPOJO() {}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -39,51 +26,11 @@ public class SpartanPOJO {
         this.lastName = lastName;
     }
 
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
-    }
-
-    public String getDegree() {
-        return degree;
-    }
-
-    public void setDegree(String degree) {
-        this.degree = degree;
-    }
-
-    public String getCourse() {
+    public CoursePOJO getCourse() {
         return course;
     }
 
-    public void setCourse(String course) {
+    public void setCourse(CoursePOJO course) {
         this.course = course;
-    }
-
-    public String getStream() {
-        return Stream;
-    }
-
-    public void setStream(String stream) {
-        Stream = stream;
-    }
-
-    public boolean isGraduated() {
-        return graduated;
-    }
-
-    public void setGraduated(boolean graduated) {
-        this.graduated = graduated;
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<Link> links) {
-        this.links = links;
     }
 }

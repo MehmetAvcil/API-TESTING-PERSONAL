@@ -1,0 +1,83 @@
+{
+  "happy_path_min_length": {
+    "firstName": "Johnny",
+    "lastName": "Doeson",
+    "course": {
+      "stream": { "name": "Techni" }
+    }
+  },
+  "happy_path_max_length": {
+    "firstName": "Johnnyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    "lastName": "Doesonnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+    "course": {
+      "stream": { "name": "Technicallllllllllllllllllllllllllllllllllllllllll" }
+    }
+  },
+  "sad_path_missing_firstname": {
+    "lastName": "Doeson",
+    "course": {
+      "stream": { "name": "Technical" }
+    },
+    "expectedError": "The FirstName field is required"
+  },
+  "sad_path_missing_lastname": {
+    "firstName": "Johnny",
+    "course": {
+      "stream": { "name": "Technical" }
+    },
+    "expectedError": "The LastName field is required."
+  },
+  "sad_path_missing_course": {
+    "firstName": "Johnny",
+    "lastName": "Doeson",
+    "expectedError": "The Course field is required."
+  },
+  "sad_path_firstname_below_min": {
+    "firstName": "Johnn",
+    "lastName": "Doeson",
+    "course": {
+      "stream": { "name": "Technical" }
+    },
+    "expectedError": "The field FirstName must be a string with a minimum length of 6 and a maximum length of 50."
+  },
+  "sad_path_lastname_below_min": {
+    "firstName": "Johnny",
+    "lastName": "Does",
+    "course": {
+      "stream": { "name": "Technical" }
+    },
+    "expectedError": "The field LastName must be a string with a minimum length of 6 and a maximum length of 50."
+  },
+  "sad_path_coursename_below_min": {
+    "firstName": "Johnny",
+    "lastName": "Doeson",
+    "course": {
+      "stream": {"name": "Tech"}
+    },
+    "expectedError": "The field Name must be a string with a minimum length of 6 and a maximum length of 50."
+  },
+  "sad_path_firstname_above_max": {
+    "firstName": "Johnnyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    "lastName": "Doeson",
+    "course": {
+      "stream": { "name": "Technical"}
+    },
+    "expectedError": "The field FirstName must be a string with a minimum length of 6 and a maximum length of 50."
+  },
+  "sad_path_lastname_above_max": {
+    "firstName": "Johnny",
+    "lastName": "Does",
+    "course": {
+      "stream": { "name": "Technicalllllllllllllllllllllllllllllllllllllllllllll" }
+    },
+    "expectedError": "The field LastName must be a string with a minimum length of 6 and a maximum length of 50."
+  },
+    "sad_path_coursename_above_max": {
+      "firstName": "Johnny",
+      "lastName": "Doeson",
+      "course": {
+        "stream": {"name": "Technicalllllllllllllllllllllllllllllllllllllllllllll"}
+      },
+      "expectedError": "The field Name must be a string with a minimum length of 6 and a maximum length of 50."
+    }
+  }

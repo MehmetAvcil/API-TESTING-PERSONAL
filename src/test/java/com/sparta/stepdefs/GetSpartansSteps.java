@@ -3,9 +3,8 @@ package com.sparta.stepdefs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
-import com.sparta.models.SpartanPOJO;
+import com.sparta.models.SpartanDTOPOJO;
 import com.sparta.utilities.ApiUtils;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,7 +12,6 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 
@@ -51,7 +49,7 @@ public class GetSpartansSteps {
 
     @And("the response body should contain valid Spartans data")
     public void theResponseBodyShouldContainValidSpartansData() {
-        SpartanPOJO[] spartans = response.as(SpartanPOJO[].class);
+        SpartanDTOPOJO[] spartans = response.as(SpartanDTOPOJO[].class);
 
         MatcherAssert.assertThat(spartans, Matchers.not(""));
         MatcherAssert.assertThat(spartans.length, Matchers.greaterThan(1));

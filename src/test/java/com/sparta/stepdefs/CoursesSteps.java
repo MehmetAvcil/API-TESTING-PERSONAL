@@ -1,7 +1,7 @@
 package com.sparta.stepdefs;
 
 import com.sparta.hooks.Hooks;
-import com.sparta.models.CoursePOJO;
+import com.sparta.models.CourseDTOPOJO;
 import com.sparta.utilities.ApiUtils;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -10,8 +10,6 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
-
-import java.text.SimpleDateFormat;
 
 import static com.sparta.utilities.ApiUtils.COURSES_PATH;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,7 +41,7 @@ public class CoursesSteps {
 
     @And("the response body should contain valid course data")
     public void theResponseBodyShouldContainValidCourseData() {
-        CoursePOJO[] courses = response.as(CoursePOJO[].class);
+        CourseDTOPOJO[] courses = response.as(CourseDTOPOJO[].class);
 
         assertThat(courses, Matchers.not(""));
         assertThat(courses.length, Matchers.greaterThan(1));

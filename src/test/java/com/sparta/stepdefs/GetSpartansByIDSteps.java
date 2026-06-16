@@ -3,9 +3,8 @@ package com.sparta.stepdefs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
-import com.sparta.models.SpartanPOJO;
+import com.sparta.models.SpartanDTOPOJO;
 import com.sparta.utilities.ApiUtils;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -19,8 +18,6 @@ import org.hamcrest.Matchers;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
-import static org.hamcrest.CoreMatchers.either;
 
 public class GetSpartansByIDSteps {
     Response response;
@@ -61,7 +58,7 @@ public class GetSpartansByIDSteps {
 
     @And("the response body should contain the expected Spartan data")
     public void theResponseBodyShouldContainTheExpectedSpartanData() {
-        SpartanPOJO spartan = response.as(SpartanPOJO.class);
+        SpartanDTOPOJO spartan = response.as(SpartanDTOPOJO.class);
         MatcherAssert.assertThat(spartan.getId(), Matchers.is(testData.get("id")));
         MatcherAssert.assertThat(spartan.getFirstName(), Matchers.not(""));
         MatcherAssert.assertThat(spartan.getLastName(), Matchers.not(""));
@@ -82,13 +79,13 @@ public class GetSpartansByIDSteps {
 
     @Then("the first name length should be at least {int} characters")
     public void theFirstNameLengthShouldBeAtLeastCharacters(int minLength) {
-        SpartanPOJO spartan = response.as(SpartanPOJO.class);
+        SpartanDTOPOJO spartan = response.as(SpartanDTOPOJO.class);
         MatcherAssert.assertThat(spartan.getFirstName(), Matchers.hasLength(minLength));
     }
 
     @And("the last name length should be at least {int} characters")
     public void theLastNameLengthShouldBeAtLeastCharacters(int minLength) {
-        SpartanPOJO spartan = response.as(SpartanPOJO.class);
+        SpartanDTOPOJO spartan = response.as(SpartanDTOPOJO.class);
         MatcherAssert.assertThat(spartan.getLastName(), Matchers.hasLength(minLength));
     }
 }
