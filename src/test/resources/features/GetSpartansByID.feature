@@ -3,16 +3,54 @@ Feature: GET /api/Spartans/{id}
   User Story:
   As an Administrator
   I want to search for a specific Spartan using their unique ID
-  So that I can pull up their individual contact information and status instantly.
+  So that I can view their valid individual contact information and status instantly.
 
-  Scenario Outline: Parameterized single Spartan record fetch
-    Given the admin has credentials "<scenario>" from "get_spartans_by_id_data.json"
-    When the framework requests a single profile using an id
-    Then the profile response status code must match the file expectation
-    And the response body should contain valid Spartan data if applicable
+  @Happy
+  Scenario Outline: Fetch an existing Spartan with valid credentials
+    Given the admin is authenticated with valid credentials
+    When the admin requests a Spartan profile with id "<id_key>" from "get_spartans_by_id_data.json"
+    Then the status code must be 200
+    And the response body should contain the expected Spartan data
 
     Examples:
-      | scenario |
-      | valid_credentials_and_existing_spartan |
-      | invalid_credentials_and_existing_spartan |
-      | valid_credentials_and_non_existent_spartan |
+      | id_key           |
+      | existing_id_1    |
+      | existing_id_2    |
+
+  @Happy
+  Scenario Outline: Spartan names must meet minimum length requirements
+    Given the admin is authenticated with valid credentials
+    When the admin requests a Spartan profile with id "<id_key>" from "get_spartans_by_id_data.json"
+    Then the first name length should be at least 6 characters
+    And the last name length should be at least 6 characters
+
+    Examples:
+      | id_key        |
+      | existing_id_1 |
+      | existing_id_2 |
+
+
+
+  @Sad
+  Scenario Outline: Attempt to fetch a Spartan profile with invalid credentials
+    Given the admin is authenticated with invalid credentials
+    When the admin requests a Spartan profile with id "<id_key>" from "get_spartans_by_id_data.json"
+    Then the status code must be 401
+    And the WWW-Authenticate header should contain the expected error message
+
+    Examples:
+      | id_key           |
+      |existing_id_1_invalid_auth|
+      |existing_id_2_invalid_auth|
+
+  @Sad
+  Scenario Outline: Fetch a Spartan profile that does not exist
+    Given the admin is authenticated with valid credentials
+    When the admin requests a Spartan profile with id "<id_key>" from "get_spartans_by_id_data.json"
+    Then the status code must be 404
+    And the response body should be empty
+
+    Examples:
+      | id_key              |
+      | non_existent_id_1   |
+      | non_existent_id_2   |

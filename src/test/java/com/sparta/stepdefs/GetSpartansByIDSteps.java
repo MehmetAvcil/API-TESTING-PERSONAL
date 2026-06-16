@@ -12,6 +12,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 
@@ -24,61 +25,70 @@ import static org.hamcrest.CoreMatchers.either;
 public class GetSpartansByIDSteps {
     Response response;
     private Map<String, Object> testData;
-    boolean credentials;
+    RequestSpecification requestSpec;
     String invalidToken;
 
-    @Given("the admin has credentials {string} from {string}")
-    public void theAdminHasCredentialsFrom(String scenario, String fileName) throws IOException {
+    @Given("the admin is authenticated with valid credentials")
+    public void theAdminIsAuthenticatedWithValidCredentials() {
+        requestSpec = ApiUtils.getBearerRequestSpec(Hooks.token);
+    }
+
+    @Given("the admin is authenticated with invalid credentials")
+    public void theAdminIsAuthenticatedWithInvalidCredentials() {
+        requestSpec = ApiUtils.getBearerRequestSpec(invalidToken);
+    }
+
+    @When("the admin requests a Spartan profile with id {string} from {string}")
+    public void theAdminRequestsASpartanProfileWithId(String idKey, String fileName) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        testData = mapper.convertValue(root.get(scenario), Map.class);
-        credentials = (boolean) testData.get(("credentials"));
+        testData = mapper.convertValue(root.get(idKey), Map.class);
+
+        response = RestAssured
+                .given(requestSpec)
+                .pathParams(Map.of("id", testData.get("id")))
+                .when()
+                .get(ApiUtils.SPARTANS_PATH + "/{id}")
+                .then()
+                .log().all()
+                .extract().response();
     }
 
-    @When("the framework requests a single profile using an id")
-    public void theFrameworkRequestsASingleProfileUsingAnId() {
-        if (credentials) {
-            response = RestAssured
-                    .given(ApiUtils.getBearerRequestSpec(Hooks.token))
-                    .pathParams(Map.of("id", testData.get("id")))
-                    .when()
-                    .get(ApiUtils.SPARTANS_PATH + "/{id}" )
-                    .then()
-                    .log().all()
-                    .extract().response();
-        } else {
-            response = RestAssured
-                    .given(ApiUtils.getBearerRequestSpec(invalidToken))
-                    .when()
-                    .get(ApiUtils.SPARTANS_PATH)
-                    .then()
-                    .log().all()
-                    .extract().response();
-        }
-
+    @Then("the status code must be {int}")
+    public void theStatusCodeMustBe(int expectedStatus) {
+        MatcherAssert.assertThat(response.statusCode(), Matchers.is(expectedStatus));
     }
 
-    @Then("the profile response status code must match the file expectation")
-    public void theProfileResponseStatusCodeMustMatchTheFileExpectation() {
-        MatcherAssert.assertThat(response.statusCode(), Matchers.is(testData.get("expectedStatusCode")));
+    @And("the response body should contain the expected Spartan data")
+    public void theResponseBodyShouldContainTheExpectedSpartanData() {
+        SpartanPOJO spartan = response.as(SpartanPOJO.class);
+        MatcherAssert.assertThat(spartan.getId(), Matchers.is(testData.get("id")));
+        MatcherAssert.assertThat(spartan.getFirstName(), Matchers.not(""));
+        MatcherAssert.assertThat(spartan.getLastName(), Matchers.not(""));
     }
 
-    @And("the response body should contain valid Spartan data if applicable")
-    public void theResponseBodyShouldContainValidSpartanData() {
-        if (credentials && response.statusCode() == 200) {
-            SpartanPOJO spartans = response.as(SpartanPOJO.class);
+    @And("the WWW-Authenticate header should contain the expected error message")
+    public void theWWWAuthenticateHeaderShouldContainTheExpectedErrorMessage() {
+        MatcherAssert.assertThat(
+                response.getHeaders().getValue("WWW-Authenticate"),
+                Matchers.is(testData.get("expectedErrorMessage"))
+        );
+    }
 
-            MatcherAssert.assertThat(spartans.getId(), Matchers.is(testData.get("id")));
-            MatcherAssert.assertThat(spartans.getFirstName(), Matchers.not(""));
-            MatcherAssert.assertThat(spartans.getLastName(), Matchers.not(""));
+    @And("the response body should be empty")
+    public void theResponseBodyShouldBeEmpty() {
+        MatcherAssert.assertThat(response.body().asString(), Matchers.is(""));
+    }
 
-        } else if (!credentials) {
-            MatcherAssert.assertThat(response.getHeaders().getValue("WWW-Authenticate"), (Matchers.is(testData.get("expectedErrorMessage"))));
-        }
+    @Then("the first name length should be at least {int} characters")
+    public void theFirstNameLengthShouldBeAtLeastCharacters(int minLength) {
+        SpartanPOJO spartan = response.as(SpartanPOJO.class);
+        MatcherAssert.assertThat(spartan.getFirstName(), Matchers.hasLength(minLength));
+    }
 
-        else {
-            MatcherAssert.assertThat(response.body().asString(), Matchers.is(""));
-
-        }
+    @And("the last name length should be at least {int} characters")
+    public void theLastNameLengthShouldBeAtLeastCharacters(int minLength) {
+        SpartanPOJO spartan = response.as(SpartanPOJO.class);
+        MatcherAssert.assertThat(spartan.getLastName(), Matchers.hasLength(minLength));
     }
 }
