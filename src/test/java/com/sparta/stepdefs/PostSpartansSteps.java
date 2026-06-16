@@ -26,6 +26,7 @@ public class PostSpartansSteps {
     Response response;
     Response deleteResponse;
     String errorMessage;
+    Response getResponse;
     private Map<String, Object> testData;
 
 
@@ -58,10 +59,21 @@ public class PostSpartansSteps {
         MatcherAssert.assertThat(response.statusCode(), Matchers.equalTo(responseCode));
     }
 
-    @And("the response body should contain the newly created Spartan's ID")
+    @And("the API body should contain the newly created Spartan's ID")
     public void theResponseBodyShouldContainTheNewlyCreatedSpartanSID() {
+        getResponse = RestAssured
+                .given(ApiUtils.getBearerRequestSpec(Hooks.token))
+                .pathParams(Map.of("id", testData.get("id")))
+                .when()
+                .get(ApiUtils.SPARTANS_PATH + "/{id}")
+                .then()
+                .log().all()
+                .extract().response();
+
+        MatcherAssert.assertThat(getResponse.statusCode(), Matchers.equalTo(200));
+
         deleteResponse = RestAssured
-                .given(requestSpec)
+                .given(ApiUtils.getBearerRequestSpec(Hooks.token))
                 .pathParams(Map.of("id", testData.get("id")))
                 .when()
                 .delete(ApiUtils.SPARTANS_PATH + "/{id}")
