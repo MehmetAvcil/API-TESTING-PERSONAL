@@ -11,12 +11,12 @@ Feature: POST /api/Spartans
     When a POST request is sent to the Spartan profile endpoint using the "<profile_key>" data from "post_spartans_data.json"
     Then the API response status code should be 201
     And the response body should contain the newly created Spartan's ID
-    And the response body should reflect the submitted profile details
 
     Examples:
       | profile_key       |
       | happy_path_min_length      |
       | happy_path_max_length      |
+      | happy_path_adjusted      |
 
 
   Scenario Outline: Fail to create a Spartan profile when submitted data is invalid

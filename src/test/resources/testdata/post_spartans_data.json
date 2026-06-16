@@ -13,6 +13,16 @@
       "stream": { "name": "Technicallllllllllllllllllllllllllllllllllllllllll" }
     }
   },
+  "happy_path_adjusted": {
+    "id": "85",
+    "firstName": "Johnny",
+    "lastName": "Doeson",
+    "course": {
+      "stream": { "name": "Techni" },
+      "name": "Technologia",
+      "trainer": "Mehmet"
+    }
+  },
   "sad_path_missing_firstname": {
     "lastName": "Doeson",
     "course": {

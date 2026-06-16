@@ -1,0 +1,14 @@
+{
+  "delete_happy_path": {
+    "id" : 85,
+    "firstName": "Johnny",
+    "lastName": "Doeson",
+    "course": {
+      "stream": {
+        "name": "Techni"
+      },
+      "name": "Technologia",
+      "trainer": "Mehmet"
+    }
+  }
+}
