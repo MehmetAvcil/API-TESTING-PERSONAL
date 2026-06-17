@@ -56,8 +56,10 @@ public class DeleteSpartansByIDSteps {
     public void aDELETERequestIsSentToTheSpartanProfileEndpointUsingTheDataFrom() {
         deleteResponse = RestAssured
                 .given(requestSpec)
+                .log().all()
                 .pathParams(Map.of("id", testData.get("id")))
                 .when()
+                .log().all()
                 .delete(ApiUtils.SPARTANS_PATH + "/{id}")
                 .then()
                 .log().all()
