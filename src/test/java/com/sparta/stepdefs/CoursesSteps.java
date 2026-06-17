@@ -1,7 +1,7 @@
 package com.sparta.stepdefs;
 
 import com.sparta.hooks.Hooks;
-import com.sparta.models.CoursePOJO;
+import com.sparta.models.CourseDTOPOJO;
 import com.sparta.utilities.ApiUtils;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -41,13 +41,12 @@ public class CoursesSteps {
 
     @And("the response body should contain valid course data")
     public void theResponseBodyShouldContainValidCourseData() {
-        CoursePOJO[] courses = response.as(CoursePOJO[].class);
+        CourseDTOPOJO[] courses = response.as(CourseDTOPOJO[].class);
 
-        assertThat(courses, Matchers.notNullValue());
+        assertThat(courses, Matchers.not(""));
         assertThat(courses.length, Matchers.greaterThan(1));
-        System.out.println(courses.length);
-        assertThat(courses[0].getId(), Matchers.notNullValue());
-        assertThat(courses[0].getName(), Matchers.notNullValue());
-        assertThat(courses[0].getTrainer(), Matchers.notNullValue());
+        assertThat(courses[0].getId(), Matchers.isA(Integer.class));
+        assertThat(courses[0].getStartDate(), Matchers.matchesPattern(("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")));
+        assertThat(courses[0].getEndDate(), Matchers.matchesPattern(("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")));
     }
 }

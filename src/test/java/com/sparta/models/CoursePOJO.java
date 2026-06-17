@@ -1,26 +1,22 @@
 package com.sparta.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.stream.Stream;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CoursePOJO {
-
-    private int id;
+    private StreamPOJO stream;
     private String name;
-    private String stream;
-    private String trainer;
-    private List<String> spartans;
-    private String startDate;
-    private String endDate;
-    private List<Link> links;
 
-    public CoursePOJO() {}
-
-    public int getId() {
-        return id;
+    public String getTrainer() {
+        return trainer;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTrainer(String trainer) {
+        this.trainer = trainer;
     }
 
     public String getName() {
@@ -31,51 +27,16 @@ public class CoursePOJO {
         this.name = name;
     }
 
-    public String getStream() {
+    private String trainer;
+
+    public CoursePOJO() {
+    }
+
+    public StreamPOJO getStream() {
         return stream;
     }
 
-    public void setStream(String stream) {
+    public void setStream(StreamPOJO stream) {
         this.stream = stream;
-    }
-
-    public String getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(String trainer) {
-        this.trainer = trainer;
-    }
-
-    public List<String> getSpartans() {
-        return spartans;
-    }
-
-    public void setSpartans(List<String> spartans) {
-        this.spartans = spartans;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<Link> links) {
-        this.links = links;
     }
 }

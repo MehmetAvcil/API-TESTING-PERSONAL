@@ -3,17 +3,14 @@ package com.sparta.stepdefs;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
-import com.sparta.models.CoursePOJO;
+import com.sparta.models.CourseDTOPOJO;
 import com.sparta.utilities.ApiUtils;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.messages.types.Hook;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 
@@ -59,12 +56,9 @@ public class CoursesByIDSteps {
 
     @And("the response body should contain expected course data")
     public void theResponseBodyShouldContainExpectedCourseData() {
-        CoursePOJO course = response.as(CoursePOJO.class);
-
-        MatcherAssert.assertThat(course.getName(), Matchers.notNullValue());
-        MatcherAssert.assertThat(course.getTrainer(), Matchers.notNullValue());
-        MatcherAssert.assertThat(course.getId(), Matchers.notNullValue());
-        MatcherAssert.assertThat(course.getSpartans(), Matchers.notNullValue());
+        CourseDTOPOJO course = response.as(CourseDTOPOJO.class);
+        MatcherAssert.assertThat(course.getId(), Matchers.is(testData.get("id")));
+        MatcherAssert.assertThat(course.getSpartans(), Matchers.not(""));
     }
 
     @And("the error message should indicate the value is invalid")

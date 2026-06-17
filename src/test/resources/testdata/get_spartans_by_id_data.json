@@ -1,0 +1,22 @@
+{
+  "existing_id_1": {
+    "id": 1
+  },
+  "existing_id_2": {
+    "id": 2
+  },
+  "non_existent_id_1": {
+    "id": 45
+  },
+  "non_existent_id_2": {
+    "id": 100
+  },
+  "existing_id_1_invalid_auth": {
+    "id": 1,
+    "expectedErrorMessage": "Bearer error=\"invalid_token\""
+  },
+  "existing_id_2_invalid_auth": {
+    "id": 1000000000,
+    "expectedErrorMessage": "Bearer error=\"invalid_token\""
+  }
+}
