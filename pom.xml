@@ -72,7 +72,7 @@
                 <version>3.2.5</version>
                 <configuration>
                     <includes>
-                        <include>**/CucumberTestRunner.java</include>
+                        <include>**/RunTests.java</include>
                     </includes>
                 </configuration>
             </plugin>
