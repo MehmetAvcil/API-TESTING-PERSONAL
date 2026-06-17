@@ -42,6 +42,11 @@ jobs:
         docker run -d -p 8080:8080 mehmetavcil/sparta-api:latest
         sleep 15
 
+    - name: Create configuration.properties from Secret
+      run: |
+        mkdir -p src/test/resources
+        echo "${{ secrets.CONFIG_PROPERTIES }}" > src/test/resources/configuration.properties
+
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
