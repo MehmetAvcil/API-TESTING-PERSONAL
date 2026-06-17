@@ -1,0 +1,243 @@
+@startuml
+class com.sparta.stepdefs.PostSpartansSteps {
+~ RequestSpecification requestSpec
+~ Response response
+~ Response deleteResponse
+~ String errorMessage
+~ Response getResponse
+- Map<String,Object> testData
++ void theAdministratorHasAnAuthorizedSession()
++ void aPOSTRequestIsSentToTheSpartanProfileEndpointUsingTheDataFrom(String,String)
++ void theAPIResponseStatusCodeShouldBe(int)
++ void theResponseBodyShouldContainTheNewlyCreatedSpartanSID()
++ void theResponseBodyShouldContainAValidationErrorMessage()
+}
+
+
+class com.sparta.stepdefs.DeleteSpartansByIDSteps {
+~ Response createResponse
+~ Response deleteResponse
+~ RequestSpecification requestSpec
+~ String errorMessage
+- Map<String,Object> testData
+~ Integer createdSpartanId
++ void theAdministratorsHasAnAuthorizedSession()
++ void anExistingSpartanProfileIsAvailableToDelete(String,String)
++ void aDELETERequestIsSentToTheSpartanProfileEndpointUsingTheDataFrom()
++ void theResponseCodeShouldBe(int)
+}
+
+
+class com.sparta.utilities.ConfigReader {
+- {static} Properties properties
++ {static} String get(String)
+}
+
+
+class com.sparta.stepdefs.LoginSteps {
+- Response response
+- Map<String,Object> testData
++ void theUserCredentialsAre(String,String)
++ void theUserSendsAPOSTRequestToTheLoginEndpoint()
++ void theResponseStatusCodeMustMatchTheExpectedValue()
+}
+
+
+class com.sparta.stepdefs.GetSpartansByIDSteps {
+~ Response response
+- Map<String,Object> testData
+~ RequestSpecification requestSpec
+~ String invalidToken
++ void theAdminIsAuthenticatedWithValidCredentials()
++ void theAdminIsAuthenticatedWithInvalidCredentials()
++ void theAdminRequestsASpartanProfileWithId(String,String)
++ void theStatusCodeMustBe(int)
++ void theResponseBodyShouldContainTheExpectedSpartanData()
++ void theWWWAuthenticateHeaderShouldContainTheExpectedErrorMessage()
++ void theResponseBodyShouldBeEmpty()
++ void theFirstNameLengthShouldBeAtLeastCharacters(int)
++ void theLastNameLengthShouldBeAtLeastCharacters(int)
+}
+
+
+class com.sparta.models.Link {
+- String href
+- String rel
+- String method
++ <<Create>> Link()
++ String getHref()
++ String getRel()
++ String getMethod()
++ void setHref(String)
++ void setRel(String)
++ void setMethod(String)
+}
+
+
+class com.sparta.utilities.ApiUtils {
++ {static} String BASE_URI
++ {static} String USERNAME
++ {static} String PASSWORD
++ {static} String LOGIN_PATH
++ {static} String SPARTANS_PATH
++ {static} String COURSES_PATH
++ {static} RequestSpecification getBaseRequestSpec()
++ {static} RequestSpecification getBearerRequestSpec(String)
+}
+
+
+class com.sparta.stepdefs.CoursesSteps {
+~ Response response
++ void theCoursesEndpointIsAvailable()
++ void theUserSendsAGETRequestToTheCoursesEndpoint()
++ void theResponseStatusCodeShouldBe(int)
++ void theResponseBodyShouldContainValidCourseData()
+}
+
+
+class com.sparta.models.CoursePOJO {
+- StreamPOJO stream
+- String name
+- String trainer
++ <<Create>> CoursePOJO()
++ String getTrainer()
++ void setTrainer(String)
++ String getName()
++ void setName(String)
++ StreamPOJO getStream()
++ void setStream(StreamPOJO)
+}
+
+
+class com.sparta.runner.RunTests {
+}
+class com.sparta.models.StreamPOJO {
+- String name
++ <<Create>> StreamPOJO()
++ String getName()
++ void setName(String)
+}
+
+
+class com.sparta.models.CourseDTOPOJO {
+- int id
+- String name
+- String stream
+- String trainer
+- List<String> spartans
+- String startDate
+- String endDate
+- List<Link> links
++ <<Create>> CourseDTOPOJO()
++ int getId()
++ void setId(int)
++ String getName()
++ void setName(String)
++ String getStream()
++ void setStream(String)
++ String getTrainer()
++ void setTrainer(String)
++ List<String> getSpartans()
++ void setSpartans(List<String>)
++ String getStartDate()
++ void setStartDate(String)
++ String getEndDate()
++ void setEndDate(String)
++ List<Link> getLinks()
++ void setLinks(List<Link>)
+}
+
+
+class com.sparta.stepdefs.GetSpartansSteps {
+~ RequestSpecification requestSpecification
+~ Response response
+- Map<String,Object> testData
++ void theUserHasAnAuthorizedSession()
++ void theUserSendsAGETRequestToTheSpartansEndpoint()
++ void theSpartanRegistryResponseStatusCodeShouldBe(int)
++ void theResponseBodyShouldContainValidSpartansData()
++ void theUserHasAnUnauthorizedSessionWithTokenFrom(String,String)
++ void theResponseHeaderErrorMessageBeExpectedFileMessage()
+}
+
+
+class com.sparta.models.SpartanDTOPOJO {
+- int id
+- String firstName
+- String lastName
+- String university
+- String degree
+- String course
+- String Stream
+- boolean graduated
+- List<Link> links
++ <<Create>> SpartanDTOPOJO()
++ int getId()
++ void setId(int)
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ String getUniversity()
++ void setUniversity(String)
++ String getDegree()
++ void setDegree(String)
++ String getCourse()
++ void setCourse(String)
++ String getStream()
++ void setStream(String)
++ boolean isGraduated()
++ void setGraduated(boolean)
++ List<Link> getLinks()
++ void setLinks(List<Link>)
+}
+
+
+class com.sparta.models.SpartanPOJO {
+- String id
+- String firstName
+- String lastName
+- CoursePOJO course
++ <<Create>> SpartanPOJO()
++ String getId()
++ void setId(String)
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ CoursePOJO getCourse()
++ void setCourse(CoursePOJO)
+}
+
+
+class com.sparta.hooks.Hooks {
++ {static} String token
++ {static} void setup()
+}
+
+
+class com.sparta.stepdefs.CoursesByIDSteps {
+~ Response response
+~ Map<String,Object> testData
++ void theCoursesByIDEndpointIsAvailable()
++ void theUserSendsAGETRequestForASingleCourseUsingIdFrom(String,String)
++ void theStatusCodeMustMatchTheFileExpectation()
++ void theResponseBodyShouldContainExpectedCourseData()
++ void theResponseBodyShouldContainErrorMessageThatIncludes()
+}
+
+
+class com.sparta.stepdefs.PutSpartansByIDSteps {
+~ RequestSpecification requestSpec
+~ Response response
+~ String errorMessage
+- Map<String,Object> testData
++ void theAdminHasAnAuthorizedSession()
++ void aPUTRequestIsSentToTheSpartanProfileEndpointUsingTheDataFrom(String,String)
++ void theAPIResponseCodeShouldBe(int)
++ void theResponseBodyShouldReflectTheUpdatedProfileDetails()
++ void theResponseBodyShouldContainAValidationErrorMessage()
+}
+
+
+@enduml
