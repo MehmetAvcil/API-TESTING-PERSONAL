@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
 import com.sparta.models.SpartanPOJO;
 import com.sparta.utilities.ApiUtils;
+import com.sparta.utilities.DataLoader;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -19,6 +20,8 @@ import org.hamcrest.Matchers;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import static com.sparta.utilities.DataLoader.mapper;
 
 public class DeleteSpartansByIDSteps {
     Response createResponse;
@@ -35,10 +38,11 @@ public class DeleteSpartansByIDSteps {
 
     @And("an existing Spartan profile is available to delete using the {string} data from {string}")
     public void anExistingSpartanProfileIsAvailableToDelete(String profileKey, String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        SpartanPOJO spartan = mapper.treeToValue(root.get(profileKey), SpartanPOJO.class);
-        testData = mapper.convertValue(root.get(profileKey), Map.class);
+
+        testData = DataLoader.getTestData(profileKey, fileName);
+        SpartanPOJO spartan = new ObjectMapper().convertValue(testData, SpartanPOJO.class);
+
+
         createResponse = RestAssured
                 .given(requestSpec)
                 .log().all()
@@ -49,6 +53,8 @@ public class DeleteSpartansByIDSteps {
                 .then()
                 .log().all()
                 .extract().response();
+
+        createdSpartanId = spartan.getId();
 
     }
 

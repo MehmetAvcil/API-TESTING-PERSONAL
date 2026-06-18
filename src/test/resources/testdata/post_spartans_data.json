@@ -1,5 +1,18 @@
 {
+  "create_spartan": {
+    "id" : 45,
+    "firstName": "Mehmet",
+    "lastName": "Avcila",
+    "course": {
+      "stream": {
+        "name": "Techni"
+      },
+      "name": "Technologia",
+      "trainer": "Mehmet"
+    }
+  },
   "happy_path_min_length": {
+    "id": 88,
     "firstName": "Johnny",
     "lastName": "Doeson",
     "course": {
@@ -7,6 +20,7 @@
     }
   },
   "happy_path_max_length": {
+    "id": 89,
     "firstName": "Johnnyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
     "lastName": "Doesonnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
     "course": {
@@ -23,7 +37,18 @@
       "trainer": "Mehmet"
     }
   },
+  "happy_path_adjusted_put": {
+    "id": "45",
+    "firstName": "Mehmet",
+    "lastName": "Avcilb",
+    "course": {
+      "stream": { "name": "Techni" },
+      "name": "Technologia",
+      "trainer": "Mehmet"
+    }
+  },
   "sad_path_missing_firstname": {
+    "id": "99",
     "lastName": "Doeson",
     "course": {
       "stream": { "name": "Technical" }
@@ -31,6 +56,7 @@
     "expectedError": "The FirstName field is required"
   },
   "sad_path_missing_lastname": {
+    "id": "99",
     "firstName": "Johnny",
     "course": {
       "stream": { "name": "Technical" }
@@ -38,11 +64,13 @@
     "expectedError": "The LastName field is required."
   },
   "sad_path_missing_course": {
+    "id": "99",
     "firstName": "Johnny",
     "lastName": "Doeson",
     "expectedError": "The Course field is required."
   },
   "sad_path_firstname_below_min": {
+    "id": "99",
     "firstName": "Johnn",
     "lastName": "Doeson",
     "course": {
@@ -51,6 +79,7 @@
     "expectedError": "The field FirstName must be a string with a minimum length of 6 and a maximum length of 50."
   },
   "sad_path_lastname_below_min": {
+    "id": "99",
     "firstName": "Johnny",
     "lastName": "Does",
     "course": {
@@ -59,6 +88,7 @@
     "expectedError": "The field LastName must be a string with a minimum length of 6 and a maximum length of 50."
   },
   "sad_path_coursename_below_min": {
+    "id": "99",
     "firstName": "Johnny",
     "lastName": "Doeson",
     "course": {
@@ -67,6 +97,7 @@
     "expectedError": "The field Name must be a string with a minimum length of 6 and a maximum length of 50."
   },
   "sad_path_firstname_above_max": {
+    "id": "99",
     "firstName": "Johnnyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
     "lastName": "Doeson",
     "course": {
@@ -75,6 +106,7 @@
     "expectedError": "The field FirstName must be a string with a minimum length of 6 and a maximum length of 50."
   },
   "sad_path_lastname_above_max": {
+    "id": "99",
     "firstName": "Johnny",
     "lastName": "Does",
     "course": {
@@ -83,6 +115,7 @@
     "expectedError": "The field LastName must be a string with a minimum length of 6 and a maximum length of 50."
   },
     "sad_path_coursename_above_max": {
+      "id": "99",
       "firstName": "Johnny",
       "lastName": "Doeson",
       "course": {

@@ -2,6 +2,7 @@ package com.sparta.stepdefs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.utilities.DataLoader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -22,9 +23,7 @@ public class LoginSteps {
 
     @Given("the user credentials are {string} from {string}")
     public void theUserCredentialsAre(String testCaseKey, String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        testData = mapper.convertValue(root.get(testCaseKey), Map.class);
+        testData = DataLoader.getTestData(testCaseKey, fileName);
     }
 
     @When("the user sends a POST request to the login endpoint")

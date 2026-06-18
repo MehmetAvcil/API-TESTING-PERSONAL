@@ -1,11 +1,10 @@
 package com.sparta.stepdefs;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
 import com.sparta.models.SpartanPOJO;
 import com.sparta.utilities.ApiUtils;
+import com.sparta.utilities.DataLoader;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -14,18 +13,21 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 public class PutSpartansByIDSteps {
     RequestSpecification requestSpec;
     Response response;
+    Response createResponse;
+    Response getResponse;
     String errorMessage;
-    private Map<String, Object> testData;
+    private Map<String, Object> putTestData;
+    private Map<String, Object> createTestData;
 
     @Given("the admin has an authorized session")
     public void theAdminHasAnAuthorizedSession() {
@@ -34,15 +36,29 @@ public class PutSpartansByIDSteps {
 
     @When("a PUT request is sent to the Spartan profile endpoint using the {string} data from {string}")
     public void aPUTRequestIsSentToTheSpartanProfileEndpointUsingTheDataFrom(String profileKey, String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        SpartanPOJO spartan = mapper.treeToValue(root.get(profileKey), SpartanPOJO.class);
-        testData = mapper.convertValue(root.get(profileKey), Map.class);
+        putTestData = DataLoader.getTestData(profileKey, fileName);
+        SpartanPOJO putSpartan = new ObjectMapper().convertValue(putTestData, SpartanPOJO.class);
+
+        createTestData = DataLoader.getTestData("create_spartan", fileName);
+        SpartanPOJO createSpartan = new ObjectMapper().convertValue(createTestData, SpartanPOJO.class);
+
+        createResponse = RestAssured
+                .given(requestSpec)
+                .body(createSpartan)
+                .pathParams(Map.of("id", createSpartan.getId()))
+                .when()
+                .put(ApiUtils.SPARTANS_PATH+"/{id}")
+                .then()
+                .log().all()
+                .extract().response();
+
+
+
         response = RestAssured
                 .given(requestSpec)
                 .log().all()
-                .body(spartan)
-                .pathParams(Map.of("id", 1))
+                .body(putSpartan)
+                .pathParams(Map.of("id", putSpartan.getId()))
                 .when()
                 .log().all()
                 .put(ApiUtils.SPARTANS_PATH+"/{id}")
@@ -56,15 +72,23 @@ public class PutSpartansByIDSteps {
         MatcherAssert.assertThat(response.statusCode(), Matchers.equalTo(responseCode));
     }
 
-    @And("the response body should reflect the updated profile details")
+    @And("the API should reflect the updated profile details")
     public void theResponseBodyShouldReflectTheUpdatedProfileDetails() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        getResponse = RestAssured
+                .given(ApiUtils.getBearerRequestSpec(Hooks.token))
+                .pathParams(Map.of("id", putTestData.get("id")))
+                .when()
+                .get(ApiUtils.SPARTANS_PATH + "/{id}")
+                .then()
+                .log().all()
+                .extract().response();
+
+        MatcherAssert.assertThat(getResponse.body().asString(), Matchers.containsString("Avcilb"));
     }
 
     @And("the response body should contain a validation error message")
     public void theResponseBodyShouldContainAValidationErrorMessage() {
-        errorMessage = testData.get("expectedError").toString();
+        errorMessage = putTestData.get("expectedError").toString();
         MatcherAssert.assertThat(response.body().asString(), Matchers.containsString(errorMessage));
     }
 }

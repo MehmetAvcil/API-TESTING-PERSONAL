@@ -7,18 +7,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SpartanPOJO {
 
-    private String id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private CoursePOJO course;
 
     public SpartanPOJO() {}
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
