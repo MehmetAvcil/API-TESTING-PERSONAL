@@ -5,7 +5,7 @@ import com.sparta.hooks.Hooks;
 import com.sparta.models.SpartanPOJO;
 import com.sparta.utilities.ApiUtils;
 import com.sparta.utilities.DataLoader;
-import io.cucumber.java.PendingException;
+import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,7 +13,6 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 
@@ -22,7 +21,7 @@ import java.util.Map;
 
 public class PutSpartansByIDSteps {
     RequestSpecification requestSpec;
-    Response response;
+    Response putResponse;
     Response createResponse;
     Response getResponse;
     String errorMessage;
@@ -42,19 +41,23 @@ public class PutSpartansByIDSteps {
         createTestData = DataLoader.getTestData("create_spartan", fileName);
         SpartanPOJO createSpartan = new ObjectMapper().convertValue(createTestData, SpartanPOJO.class);
 
+
         createResponse = RestAssured
                 .given(requestSpec)
+                .log().all()
                 .body(createSpartan)
-                .pathParams(Map.of("id", createSpartan.getId()))
                 .when()
-                .put(ApiUtils.SPARTANS_PATH+"/{id}")
+                .log().all()
+                .post(ApiUtils.SPARTANS_PATH)
                 .then()
                 .log().all()
                 .extract().response();
 
 
+        putSpartan.setId(createSpartan.getId());
 
-        response = RestAssured
+
+        putResponse = RestAssured
                 .given(requestSpec)
                 .log().all()
                 .body(putSpartan)
@@ -69,15 +72,17 @@ public class PutSpartansByIDSteps {
 
     @Then("the API response code should be {int}")
     public void theAPIResponseCodeShouldBe(int responseCode) {
-        MatcherAssert.assertThat(response.statusCode(), Matchers.equalTo(responseCode));
+        MatcherAssert.assertThat(putResponse.statusCode(), Matchers.equalTo(responseCode));
     }
 
     @And("the API should reflect the updated profile details")
     public void theResponseBodyShouldReflectTheUpdatedProfileDetails() {
         getResponse = RestAssured
                 .given(ApiUtils.getBearerRequestSpec(Hooks.token))
-                .pathParams(Map.of("id", putTestData.get("id")))
+                .pathParams(Map.of("id", createTestData.get("id")))
+                .log().all()
                 .when()
+                .log().all()
                 .get(ApiUtils.SPARTANS_PATH + "/{id}")
                 .then()
                 .log().all()
@@ -89,6 +94,14 @@ public class PutSpartansByIDSteps {
     @And("the response body should contain a validation error message")
     public void theResponseBodyShouldContainAValidationErrorMessage() {
         errorMessage = putTestData.get("expectedError").toString();
-        MatcherAssert.assertThat(response.body().asString(), Matchers.containsString(errorMessage));
+        MatcherAssert.assertThat(putResponse.body().asString(), Matchers.containsString(errorMessage));
     }
+
+    @After("@createsSpartan")
+    public void cleanUp() {
+            RestAssured.given(requestSpec)
+                    .pathParams(Map.of("id", 45))
+                    .when()
+                    .delete(ApiUtils.SPARTANS_PATH + "/{id}");
+        }
 }

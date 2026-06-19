@@ -1,6 +1,17 @@
 {
+  "create_spartan": {
+    "id" : 45,
+    "firstName": "Mehmet",
+    "lastName": "Avcila",
+    "course": {
+      "stream": {
+        "name": "Techni"
+      },
+      "name": "Technologia",
+      "trainer": "Mehmet"
+    }
+  },
   "happy_path_min_length": {
-    "id": 88,
     "firstName": "Johnny",
     "lastName": "Doeson",
     "course": {
@@ -8,7 +19,6 @@
     }
   },
   "happy_path_max_length": {
-    "id": 89,
     "firstName": "Johnnyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
     "lastName": "Doesonnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
     "course": {
@@ -20,9 +30,16 @@
     "firstName": "Johnny",
     "lastName": "Doeson",
     "course": {
-      "stream": {
-        "name": "Techni"
-      },
+      "stream": { "name": "Techni" },
+      "name": "Technologia",
+      "trainer": "Mehmet"
+    }
+  },
+  "happy_path_adjusted_put": {
+    "firstName": "Mehmet",
+    "lastName": "Avcilb",
+    "course": {
+      "stream": { "name": "Techni" },
       "name": "Technologia",
       "trainer": "Mehmet"
     }

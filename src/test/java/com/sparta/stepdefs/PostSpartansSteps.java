@@ -56,7 +56,7 @@ public class PostSpartansSteps {
 
 
         deleteResponse = RestAssured
-                .given(ApiUtils.getBearerRequestSpec(Hooks.token))
+                .given(requestSpec)
                 .pathParams(Map.of("id", testData.get("id")))
                 .when()
                 .delete(ApiUtils.SPARTANS_PATH + "/{id}")
