@@ -52,7 +52,7 @@ class DataLoaderTest {
         when(mockRootNode.get("valid_id_1")).thenReturn(mockKeyNode);
         when(mockMapper.convertValue(mockKeyNode, Map.class)).thenReturn(expectedMap);
 
-        Map<String, Object> actualData = DataLoader.getTestData("courses_data.json", "valid_id_1");
+        Map<String, Object> actualData = DataLoader.getTestData("valid_id_1", "courses_data.json");
 
         MatcherAssert.assertThat(actualData, Matchers.notNullValue());
         MatcherAssert.assertThat(actualData.get("id"), Matchers.is(1));
@@ -67,7 +67,7 @@ class DataLoaderTest {
         when(mockRootNode.get("invalid_key")).thenReturn(null);
         when(mockMapper.convertValue(null, Map.class)).thenReturn(null);
 
-        Map<String, Object> actualData = DataLoader.getTestData("courses_data.json", "invalid_key");
+        Map<String, Object> actualData = DataLoader.getTestData("invalid_key", "courses_data.json");
 
         MatcherAssert.assertThat(actualData, Matchers.nullValue());
     }
