@@ -4,21 +4,23 @@ Feature: PUT /api/Spartans/{id}
   I want to update all information fields on an existing Spartan record
   So that any complete changes to their personal profile are securely saved.
 
+  @createsSpartan
   Scenario Outline: Successfully update an existing Spartan profile with valid data
     Given the admin has an authorized session
-    When a PUT request is sent to the Spartan profile endpoint using the "<profile_key>" data from "post_spartans_data.json"
-    Then the API response code should be 200
-    And the response body should reflect the updated profile details
+    When a PUT request is sent to the Spartan profile endpoint using the "<profile_key>" data from "put_spartans_data.json"
+    Then the API response code should be 204
+    And the API should reflect the updated profile details
 
     Examples:
       | profile_key       |
       | happy_path_min_length      |
       | happy_path_max_length      |
+      | happy_path_adjusted_put      |
 
 
   Scenario Outline: Fail to update a Spartan profile when submitted data is invalid
     Given the admin has an authorized session
-    When a PUT request is sent to the Spartan profile endpoint using the "<profile_key>" data from "post_spartans_data.json"
+    When a PUT request is sent to the Spartan profile endpoint using the "<profile_key>" data from "put_spartans_data.json"
     Then the API response code should be 400
     And the response body should contain a validation error message
 

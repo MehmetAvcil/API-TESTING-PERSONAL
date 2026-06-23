@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
 import com.sparta.models.SpartanDTOPOJO;
 import com.sparta.utilities.ApiUtils;
+import com.sparta.utilities.DataLoader;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -37,9 +38,8 @@ public class GetSpartansByIDSteps {
 
     @When("the admin requests a Spartan profile with id {string} from {string}")
     public void theAdminRequestsASpartanProfileWithId(String idKey, String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        testData = mapper.convertValue(root.get(idKey), Map.class);
+
+        testData = DataLoader.getTestData(idKey, fileName);
 
         response = RestAssured
                 .given(requestSpec)

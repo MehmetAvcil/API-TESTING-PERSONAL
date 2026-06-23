@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
 import com.sparta.models.SpartanDTOPOJO;
 import com.sparta.utilities.ApiUtils;
+import com.sparta.utilities.DataLoader;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -61,9 +62,7 @@ public class GetSpartansSteps {
 
     @Given("the user has an unauthorized session with token {string} from {string}")
     public void theUserHasAnUnauthorizedSessionWithTokenFrom(String testCase, String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        testData = mapper.convertValue(root.get(testCase), Map.class);
+        testData = DataLoader.getTestData(testCase, fileName);
 
         requestSpecification =  RestAssured
                 .given(ApiUtils.getBearerRequestSpec(testData.get("token").toString()))

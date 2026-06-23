@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
 import com.sparta.models.CourseDTOPOJO;
 import com.sparta.utilities.ApiUtils;
+import com.sparta.utilities.DataLoader;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -31,9 +32,7 @@ public class CoursesByIDSteps {
 
     @When("the user sends a GET request for a single course using id {string} from {string}")
     public void theUserSendsAGETRequestForASingleCourseUsingIdFrom(String testCaseKey, String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        testData = mapper.convertValue(root.get(testCaseKey), Map.class);
+        testData = DataLoader.getTestData(testCaseKey, fileName);
 
         response = RestAssured
                 .given(ApiUtils.getBearerRequestSpec(Hooks.token))

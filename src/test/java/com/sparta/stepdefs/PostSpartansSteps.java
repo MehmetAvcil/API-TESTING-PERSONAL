@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.hooks.Hooks;
 import com.sparta.models.SpartanPOJO;
 import com.sparta.utilities.ApiUtils;
+import com.sparta.utilities.DataLoader;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -20,6 +21,8 @@ import org.hamcrest.Matchers;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import static com.sparta.utilities.DataLoader.mapper;
 
 public class PostSpartansSteps {
     RequestSpecification requestSpec;
@@ -37,10 +40,9 @@ public class PostSpartansSteps {
 
     @When("a POST request is sent to the Spartan profile endpoint using the {string} data from {string}")
     public void aPOSTRequestIsSentToTheSpartanProfileEndpointUsingTheDataFrom(String profileKey, String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("src/test/resources/testdata/" + fileName));
-        SpartanPOJO spartan = mapper.treeToValue(root.get(profileKey), SpartanPOJO.class);
-        testData = mapper.convertValue(root.get(profileKey), Map.class);
+        testData = DataLoader.getTestData(profileKey, fileName);
+        SpartanPOJO spartan = new ObjectMapper().convertValue(testData, SpartanPOJO.class);
+
         response = RestAssured
                 .given(requestSpec)
                 .log().all()
@@ -48,6 +50,16 @@ public class PostSpartansSteps {
                 .when()
                 .log().all()
                 .post(ApiUtils.SPARTANS_PATH)
+                .then()
+                .log().all()
+                .extract().response();
+
+
+        deleteResponse = RestAssured
+                .given(requestSpec)
+                .pathParams(Map.of("id", testData.get("id")))
+                .when()
+                .delete(ApiUtils.SPARTANS_PATH + "/{id}")
                 .then()
                 .log().all()
                 .extract().response();
@@ -71,15 +83,6 @@ public class PostSpartansSteps {
                 .extract().response();
 
         MatcherAssert.assertThat(getResponse.statusCode(), Matchers.equalTo(200));
-
-        deleteResponse = RestAssured
-                .given(ApiUtils.getBearerRequestSpec(Hooks.token))
-                .pathParams(Map.of("id", testData.get("id")))
-                .when()
-                .delete(ApiUtils.SPARTANS_PATH + "/{id}")
-                .then()
-                .log().all()
-                .extract().response();
     }
 
 
