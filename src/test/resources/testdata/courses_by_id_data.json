@@ -13,11 +13,11 @@
   },
   "invalid_id_1": {
     "id": 10,
-    "expectedStatusCode": 204
+    "expectedStatusCode": 404
   },
   "invalid_id_2": {
     "id": 10,
-    "expectedStatusCode": 204
+    "expectedStatusCode": 404
   },
   "invalid_input_1": {
     "id": " ",
